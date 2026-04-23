@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import api from '../utils/api';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -15,7 +15,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/products');
+        const { data } = await api().get('/api/products');
         setProducts(data);
         setLoading(false);
       } catch (err) {

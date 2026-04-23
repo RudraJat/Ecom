@@ -4,7 +4,7 @@ import {
   MapPin, CreditCard, CheckCircle, AlertCircle,
   ChevronRight, ShoppingBag, Truck, Lock
 } from 'lucide-react';
-import api from '../utils/api';
+import api, { BASE_URL } from '../utils/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './CheckoutPage.css';
@@ -337,7 +337,7 @@ const CheckoutPage = () => {
                   {cartItems.map((item) => (
                     <div key={item.product} style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'center' }}>
                       <img
-                        src={item.image?.startsWith('/') ? `http://localhost:5000${item.image}` : item.image}
+                        src={item.image?.startsWith('/') ? `${BASE_URL}${item.image}` : item.image}
                         alt={item.name}
                         style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, background: 'var(--surface-light)' }}
                       />

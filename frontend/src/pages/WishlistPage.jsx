@@ -3,6 +3,7 @@ import { Heart, ShoppingCart, Trash2, Package } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import AccountLayout from '../components/AccountLayout';
+import { BASE_URL } from '../utils/api';
 
 const WishlistPage = () => {
   const { wishlistItems, toggleWishlist } = useWishlist();
@@ -54,7 +55,7 @@ const WishlistPage = () => {
               <Link to={`/product/${product._id}`}>
                 {product.image ? (
                   <img
-                    src={product.image.startsWith('/') ? `http://localhost:5000${product.image}` : product.image}
+                    src={product.image.startsWith('/') ? `${BASE_URL}${product.image}` : product.image}
                     alt={product.name}
                     className="wishlist-product-img"
                   />

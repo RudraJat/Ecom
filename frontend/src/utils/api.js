@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';
+const baseFromEnv = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = (baseFromEnv || 'http://localhost:5000').replace(/\/$/, '');
 
 // Creates an axios instance that always reads the token fresh from localStorage
 const api = () => {
@@ -18,3 +19,4 @@ const api = () => {
 };
 
 export default api;
+export { BASE_URL };

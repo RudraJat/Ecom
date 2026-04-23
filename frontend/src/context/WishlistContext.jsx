@@ -1,6 +1,6 @@
 import { createContext, useReducer, useContext, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { useAuth } from './AuthContext';
+import api from '../utils/api';
 
 const WishlistContext = createContext();
 
@@ -38,7 +38,7 @@ export const WishlistProvider = ({ children }) => {
               Authorization: `Bearer ${userInfo.token}`,
             },
           };
-          const { data } = await axios.get('http://localhost:5000/api/users/profile', config);
+          const { data } = await api().get('/api/users/profile', config);
           if (data.wishlist) {
             dispatch({ type: 'WISHLIST_SET', payload: data.wishlist });
           }
@@ -64,11 +64,7 @@ export const WishlistProvider = ({ children }) => {
             Authorization: `Bearer ${userInfo.token}`,
           },
         };
-        const { data } = await axios.put(
-          `http://localhost:5000/api/users/wishlist/${product._id}`,
-          {},
-          config
-        );
+        const { data } = await api().put(`/api/users/wishlist/${product._id}`, {}, config);
         dispatch({ type: 'WISHLIST_SET', payload: data });
       } catch (err) {
         console.error('Toggle wishlist error:', err);

@@ -1,5 +1,6 @@
 import { createContext, useReducer, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import api from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -48,8 +49,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (email, password) => {
     dispatch({ type: 'AUTH_REQUEST' });
     try {
-      const config = { headers: { 'Content-Type': 'application/json' } };
-      const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password }, config);
+      const { data } = await api().post('/api/users/login', { email, password });
       dispatch({ type: 'AUTH_SUCCESS', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       return true;
@@ -65,8 +65,7 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(async (name, email, password) => {
     dispatch({ type: 'AUTH_REQUEST' });
     try {
-      const config = { headers: { 'Content-Type': 'application/json' } };
-      const { data } = await axios.post('http://localhost:5000/api/users', { name, email, password }, config);
+      const { data } = await api().post('/api/users', { name, email, password });
       dispatch({ type: 'AUTH_SUCCESS', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       return true;
@@ -82,14 +81,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = useCallback(async (profileData) => {
     dispatch({ type: 'AUTH_REQUEST' });
     try {
-      const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          ...(userInfo?.token ? { Authorization: `Bearer ${userInfo.token}` } : {}),
-        },
-      };
-      const { data } = await axios.put('http://localhost:5000/api/users/profile', profileData, config);
+      const { data } = await api().put('/api/users/profile', profileData);
       dispatch({ type: 'AUTH_SUCCESS', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       return { success: true };
